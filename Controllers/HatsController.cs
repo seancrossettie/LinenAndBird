@@ -39,7 +39,7 @@ namespace LinenAndBird.Models
             return _hats;
         }
 
-        [HttpGet]
+        [HttpGet("styles/{style}")]
         public IEnumerable<Hat> GetHatsByStyle(HatStyle style)
         {
             var matches = _hats.Where(hat => hat.Style == style);
