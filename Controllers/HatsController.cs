@@ -1,48 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LinenAndBird.Controllers;
+using LinenAndBird.DataAccesLayer;
+using LinenAndBird.Models;
 using Microsoft.AspNetCore.Mvc;
-using static LinenAndBird.Controllers.Hat;
+using static LinenAndBird.Models.Hat;
 
-namespace LinenAndBird.Models
+namespace LinenAndBird.Controllers
 {
     [Route("api/hats")] // Exposed at this endpoint
     [ApiController] // An api controller, so it returns json or xml
     public class HatsController : ControllerBase
     {
-
-        static List<Hat> _hats = new List<Hat>
+        HatRepository _repo;
+        public HatsController()
         {
-            new Hat
-            {
-                Color = "Blue",
-                Designer = "Charlie",
-                Style = Hat.HatStyle.OpenBack
-            },
-            new Hat
-            {
-                Color = "Blue",
-                Designer = "Charlie",
-                Style = Hat.HatStyle.OpenBack
-            },
-            new Hat
-            {
-                Color = "Blue",
-                Designer = "Charlie",
-                Style = Hat.HatStyle.OpenBack
-            }
-        };
+            _repo = new HatRepository();
+        }
 
         [HttpGet]
         public List<Hat> GetAllHats()
         {
-            return _hats;
+            return _repo.GetAll();
         }
 
         [HttpGet("styles/{style}")]
         public IEnumerable<Hat> GetHatsByStyle(HatStyle style)
         {
-            var matches = _hats.Where(hat => hat.Style == style);
+            var matches = _repo.GetByStyle(style);
 
             return matches;
         }
@@ -50,7 +34,7 @@ namespace LinenAndBird.Models
         [HttpPost]
         public void AddAHat(Hat newHat)
         {
-            _hats.Add(newHat);
+            _repo.Add(newHat);
         }
 
     }
