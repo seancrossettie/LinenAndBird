@@ -13,7 +13,7 @@ namespace LinenAndBird.DataAccesLayer
           {
               Color = "Blue",
               Designer = "Someone",
-              Style = Hat.HatStyle.OpenBack
+              Style = HatStyle.OpenBack
           }
         };
 
@@ -24,12 +24,12 @@ namespace LinenAndBird.DataAccesLayer
 
         internal void Add(Hat newHat)
         {
-            throw new NotImplementedException();
+            _hats.Add(newHat);
         }
 
-        internal static object GetByStyle(Hat.HatStyle style)
+        internal IEnumerable<Hat> GetByStyle(HatStyle style)
         {
-            _hats.Where(hat => hat.Style == style);
+           return _hats.Where(hat => hat.Style == style);
         }
     }
 }
