@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using LinenAndBird.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using static LinenAndBird.Controllers.Hat;
 
 namespace LinenAndBird.Models
 {
@@ -9,30 +11,46 @@ namespace LinenAndBird.Models
     public class HatsController : ControllerBase
     {
 
+        static List<Hat> _hats = new List<Hat>
+        {
+            new Hat
+            {
+                Color = "Blue",
+                Designer = "Charlie",
+                Style = Hat.HatStyle.OpenBack
+            },
+            new Hat
+            {
+                Color = "Blue",
+                Designer = "Charlie",
+                Style = Hat.HatStyle.OpenBack
+            },
+            new Hat
+            {
+                Color = "Blue",
+                Designer = "Charlie",
+                Style = Hat.HatStyle.OpenBack
+            }
+        };
+
         [HttpGet]
         public List<Hat> GetAllHats()
         {
-            return new List<Hat>
-            {
-                new Hat
-                {
-                    Color = "Blue",
-                    Designer = "Charlie",
-                    Style = Hat.HatStyle.OpenBack
-                },
-                new Hat
-                {
-                    Color = "Blue",
-                    Designer = "Charlie",
-                    Style = Hat.HatStyle.OpenBack
-                },
-                new Hat
-                {
-                    Color = "Blue",
-                    Designer = "Charlie",
-                    Style = Hat.HatStyle.OpenBack
-                }
-            };
+            return _hats;
+        }
+
+        [HttpGet]
+        public IEnumerable<Hat> GetHatsByStyle(HatStyle style)
+        {
+            var matches = _hats.Where(hat => hat.Style == style);
+
+            return matches;
+        }
+
+        [HttpPost]
+        public void AddAHat(Hat newHat)
+        {
+            _hats.Add(newHat);
         }
 
     }
